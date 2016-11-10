@@ -364,8 +364,8 @@ configure_permissions()
 	useradd -r -s /bin/false redis
 
 	# Change owner for /etc/redis/ to allow sentinel change the configuration files
-	color chown -R redis.redis /etc/redis/
-	color chown -R redis.redis /var/redis/
+	chown -R redis.redis /etc/redis/
+	chown -R redis.redis /var/redis/
 
 	# Make log files writable
 	color touch /var/log/redis-${REDIS_PORT}.log
@@ -381,7 +381,7 @@ configure_permissions()
 restart_supervisor()
 {
 	#restart supervisor for confguration to take effect
-	color service supervisor restart
+	service supervisor restart
 	log "Supervisor was restarted successfully" $GREEN
 }
 
