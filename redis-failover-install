@@ -49,6 +49,7 @@ help()
 	echo "-p Redis port"
 	echo "-i Master IP address (required)"
 	echo "-m Flag indicating that the current machine is being configured as a master"
+	echo "-q Sentinel quorum (default = 2)"
 	echo "-w Password to be set to access redis server (required)"
 	echo "-r (remove) Flag indicating whether the script removes any existing installed redis instance and all its associated configuration"
 	echo "-h Help"
@@ -80,7 +81,7 @@ then
 fi
 
 # Parse script parameters
-while getopts :v:p:i:w:mrh optname; do
+while getopts :v:p:i:w:q:mrh optname; do
   log "Option $optname set with value ${OPTARG}"
   
   case $optname in
@@ -103,6 +104,9 @@ while getopts :v:p:i:w:mrh optname; do
 		;;
     m)  # Indicator of the master node
 		IS_MASTER_NODE=1
+		;;
+    q)  # Quorum
+		SENTINEL_QUORUM=${OPTARG}
 		;;
     r)  # remove installed redis instance and associated configuration
 		CLEAR_REDIS_INSTALLATION=1
@@ -354,7 +358,7 @@ configure_sentinel()
 	color sed -i "s/^sentinel monitor.*$/sentinel monitor mymaster ${MASTER_IP} ${REDIS_PORT} ${SENTINEL_QUORUM}/g" /etc/redis/${REDIS_PORT}/sentinel.conf
 
 	# Additional sentinel configuration from template
-	color sed -e "s/\${SENTINEL_PORT}/${SENTINEL_PORT}/" -e "s/\${REDIS_PORT}/${REDIS_PORT}/" -e "s/\${MASTER_IP}/${MASTER_IP}/" -e "s/\${SENTINEL_QUORUM}/${SENTINEL_QUORUM}/" -e "s/\${REDIS_PASS}/${REDIS_PASS}/" ../templates/sentinel.conf >> /etc/redis/${REDIS_PORT}/sentinel.conf
+	color sed -e "s/\${SENTINEL_PORT}/${SENTINEL_PORT}/" -e "s/\${REDIS_PASS}/${REDIS_PASS}/" ../templates/sentinel.conf >> /etc/redis/${REDIS_PORT}/sentinel.conf
 }
 
 #############################################################################
