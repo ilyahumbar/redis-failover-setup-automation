@@ -2,7 +2,7 @@
 A script which helps with setting up and running simple redis/sentinel failover configuration. Currently the script supports basic sentinel setup where sentinel instances are running on the same machines with redis-server instances (<a href="http://redis.io/topics/sentinel#example-2-basic-setup-with-three-boxes" target="_blank">Redis sentinel documentation</a>). Redis is compiled from sources. Redis-server and redis-sentinel are orchestrated by supervisor. Supervisor is installed from ubuntu package manager. This script should be run on each machine which should become a part of failover configuration. Flag ```-m``` is used to specify if current machine should be configured as a master instance.
 
 ## Prerequisites
-The script is tested to work on clean Ubuntu 14.04 install. If you already have redis installed via package manager, please remove it and make sure all redis instances are stopped on the current machine to prevent any conflicts. You can also use ```-r``` option to remove redis previously installed from sources (/usr/local/bin). Be aware that this option also removes any associated logs and configuration files.
+The script is tested to work on clean Ubuntu 14.04/16.04 install. If you already have redis installed via package manager, please remove it and make sure all redis instances are stopped on the current machine to prevent any conflicts. You can also use ```-r``` option to remove redis previously installed from sources (/usr/local/bin). Be aware that this option also removes any associated logs and configuration files.
 
 ## Arguments
 **-i** [required]
