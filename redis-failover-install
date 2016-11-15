@@ -264,8 +264,6 @@ install_redis()
 	color tar xzf redis-$VERSION.tar.gz
 	cd redis-$VERSION
 
-	printf '%s\n' "${PWD##*/}"
-
 	if test -f "/usr/local/bin/redis-server"; then 
 	    log "Redis has been already installed. Use -r option to remove existing instance" $YELLOW
 	    return 0
